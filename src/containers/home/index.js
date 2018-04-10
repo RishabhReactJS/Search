@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { searchFor } from '../../modules/counter';
+import { searchFor } from '../../modules/userDetail';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Avatar from 'material-ui/Avatar';
 import List from 'material-ui/List/List';
@@ -64,7 +64,7 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  searchList: state.counter.items
+  searchList: state.userDetail.items
 });
 
 const mapDispatchToProps = dispatch =>
