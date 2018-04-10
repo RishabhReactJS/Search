@@ -2,8 +2,7 @@ import React from 'react';
 
 const About = () => (
   <div>
-    <h1>About Page</h1>
-    <p>Did you get here via Redux?</p>
+    <h1>About User Page</h1>
   </div>
 );
 

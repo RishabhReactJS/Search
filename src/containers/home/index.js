@@ -1,58 +1,76 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {
-  increment,
-  incrementAsync,
-  decrement,
-  decrementAsync
-} from '../../modules/counter';
+import { searchFor } from '../../modules/counter';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Avatar from 'material-ui/Avatar';
+import List from 'material-ui/List/List';
+import ListItem from 'material-ui/List/ListItem';
 
-const Home = props => (
-  <div>
-    <h1>Home</h1>
-    <p>Count: {props.count}</p>
+class Home extends React.Component {
+  constructor(props) {
+    super(props);
 
-    <p>
-      <button onClick={props.increment} disabled={props.isIncrementing}>
-        Increment
-      </button>
-      <button onClick={props.incrementAsync} disabled={props.isIncrementing}>
-        Increment Async
-      </button>
-    </p>
+    this.startSearch = this.startSearch.bind(this);
+  }
 
-    <p>
-      <button onClick={props.decrement} disabled={props.isDecrementing}>
-        Decrement
-      </button>
-      <button onClick={props.decrementAsync} disabled={props.isDecrementing}>
-        Decrement Async
-      </button>
-    </p>
+  componentDidMount() {
+    this.props.searchFor();
+  }
 
-    <p>
-      <button onClick={() => props.changePage()}>
-        Go to about page via redux
-      </button>
-    </p>
-  </div>
-);
+  startSearch() {
+    const text = document.getElementById('SearchT').value;
+    this.props.searchFor(text);
+  }
+
+  directUserDetails() {
+    this.props.changePage();
+  }
+
+  render() {
+    return (
+      <div>
+        <div>
+          <input
+            id="SearchT"
+            type="text"
+            placeholder="Seach Here"
+            onChange={this.startSearch}
+          />
+        </div>
+        <div>
+          <MuiThemeProvider>
+            <List>
+              {console.log('this.props.searchList')}
+              {console.log(this.props.searchList)}
+
+              {this.props.searchList != undefined
+                ? this.props.searchList.map(user => (
+                    <ListItem
+                      onClick={() => this.directUserDetails()}
+                      key={user.id}
+                      leftAvatar={<Avatar src={user.avatar_url} size={30} />}>
+                      {user.login}
+                    </ListItem>
+                  ))
+                : null}
+            </List>
+          </MuiThemeProvider>
+        </div>
+      </div>
+    );
+  }
+}
 
 const mapStateToProps = state => ({
-  count: state.counter.count,
-  isIncrementing: state.counter.isIncrementing,
-  isDecrementing: state.counter.isDecrementing
+  searchList: state.counter.items
 });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      increment,
-      incrementAsync,
-      decrement,
-      decrementAsync,
+      searchFor,
       changePage: () => push('/about-us')
     },
     dispatch
