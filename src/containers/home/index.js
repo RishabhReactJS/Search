@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { searchFor } from '../../modules/userDetail';
+import { searchFor, selectUser } from '../../modules/userDetail';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Avatar from 'material-ui/Avatar';
 import List from 'material-ui/List/List';
@@ -24,7 +24,10 @@ class Home extends React.Component {
     this.props.searchFor(text);
   }
 
-  directUserDetails() {
+  directUserDetails(userName) {
+    this.props.selectUser(userName);
+    console.log('this.props.user');
+    console.log(this.props.user);
     this.props.changePage();
   }
 
@@ -48,7 +51,7 @@ class Home extends React.Component {
               {this.props.searchList != undefined
                 ? this.props.searchList.map(user => (
                     <ListItem
-                      onClick={() => this.directUserDetails()}
+                      onClick={() => this.directUserDetails(user.login)}
                       key={user.id}
                       leftAvatar={<Avatar src={user.avatar_url} size={30} />}>
                       {user.login}
@@ -64,13 +67,15 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  searchList: state.userDetail.items
+  searchList: state.userDetail.items,
+  userList: state.userDetail.user
 });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       searchFor,
+      selectUser,
       changePage: () => push('/about-us')
     },
     dispatch

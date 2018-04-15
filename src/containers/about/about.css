@@ -1,0 +1,27 @@
+.AboutDiv {
+  display: inline-flex;
+  padding: 5rem;
+}
+
+.userDataDiv {
+  padding-right: 2rem;
+}
+
+.usrImg {
+  border-radius: 5px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.userRepos ul li h3 {
+  color: #5374d2;
+}
+
+.userRepos ul li:first-child {
+  border-top: gray solid 1px;
+}
+.userRepos ul li {
+  border-bottom: gray solid 1px;
+}
